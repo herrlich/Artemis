@@ -9,34 +9,40 @@
  */
 
 public class BSTIterator {
-    List<Integer> list = new ArrayList<Integer>();
-    int pos = 0;
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    TreeNode cur = null;
     
     public BSTIterator(TreeNode root) {
-        list = buildList(root);
-    }
-    
-    private List<Integer> buildList(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
-        if (root == null) return res;
-        List<Integer> leftlist = buildList(root.left);
-        List<Integer> rightlist = buildList(root.right);
-        if (leftlist != null) res.addAll(leftlist);
-        res.add(root.val);
-        if (rightlist != null) res.addAll(rightlist);
-        System.out.println(res);
-        return res;
+        //或者直接写cur = root,然后在next函数中进行压栈
+        TreeNode tmp = root;
+        while (tmp != null) {
+            stack.push(tmp);
+            tmp = tmp.left;
+        }
+        cur = null;
     }
 
     /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        return pos < list.size();
+        return (!stack.isEmpty() || (cur != null));
     }
 
     /** @return the next smallest number */
     public int next() {
-        ++pos;
-        return list.get(pos - 1);
+        TreeNode tmp = null;
+        if (cur == null) {
+            tmp = stack.pop();
+            cur = tmp.right;
+        }
+        else {
+            while (cur.left != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            tmp = cur;
+            cur = cur.right;
+        }
+        return tmp.val;
     }
 }
 
