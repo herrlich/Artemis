@@ -40,3 +40,40 @@ public class Solution {
         }
     }
 }
+
+
+-----------------------------------------------------------------------------
+// I think the following method is better, since I utilized the information in "dp" array to save time for useless searchings.
+
+public class Solution {
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+        List<String> list = new ArrayList<String>();
+        if (s == null || s.length() == 0) return list;
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        for (int i = 0; i <= s.length(); ++i) {
+            for (int j = 0; j <= i; ++j) {
+                if (dp[j] && wordDict.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        if (!dp[s.length()]) return res; 
+        getBreak(s, wordDict, list, dp, "");
+        return list;
+    }
+    
+    public void getBreak(String s, Set<String> wordDict, List<String> list, boolean[] dp, String words) {
+        if (s.equals("")) {
+            list.add(words.trim());
+            return;
+        }
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (wordDict.contains(s.substring(i, s.length())) && dp[i]) {
+                String newwords = " " + s.substring(i, s.length()) + words;
+                getBreak(s.substring(0, i), wordDict, list, dp, newwords);
+            }
+        }
+    }
+}
