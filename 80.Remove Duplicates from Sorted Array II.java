@@ -1,21 +1,20 @@
 public class Solution {
     public int removeDuplicates(int[] nums) {
-        if (nums.length <= 1) return nums.length;
-        int p1 = 0, p2 = 1;
-        boolean flag = false;
-        for (; p2 < nums.length; ++p2) {
-            if (nums[p2] == nums[p1]) {
-                if (flag) continue;
-                else {
-                    nums[++p1] = nums[p2];
-                    flag = true;
+        if (nums == null || nums.length == 0) return 0;
+        int len = 0, repeat = 0;
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] == nums[len]) {
+                if (repeat < 1) {
+                    ++repeat;
+                    nums[++len] = nums[i];
                 }
+                else continue;
             }
             else {
-                nums[++p1] = nums[p2];
-                flag = false;
+                repeat = 0;
+                nums[++len] = nums[i];
             }
         }
-        return p1 + 1;
+        return len + 1;
     }
 }

@@ -6,24 +6,20 @@ public class Solution {
         Arrays.sort(strs);
         for (int i = 0; i < strs.length; ++i) {
             String tmp = reformat(strs[i]);
-            if (map.containsKey(tmp)) {
-                map.get(tmp).add(strs[i]);
-            }
+            if (map.containsKey(tmp)) map.get(tmp).add(strs[i]);
             else {
                 List<String> list = new ArrayList<String>();
                 list.add(strs[i]);
                 map.put(tmp, list);
             }
         }
-        for (String s : map.keySet()) {
-            res.add(map.get(s));
-        }
+        for (String s : map.keySet()) res.add(map.get(s));
         return res;
     }
     
     private String reformat(String s) {
         char[] array = s.toCharArray();
         Arrays.sort(array);
-        return new String(array);
+        return new String(array); // or we can use String.valueOf(array);
     }
 }
