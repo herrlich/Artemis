@@ -4,21 +4,27 @@ public class Solution {
         Stack<Integer> stack = new Stack<Integer>();
         for (int i = 0; i < tokens.length; ++i) {
             if (tokens[i].equals("+")) {
-                stack.push(stack.pop() + stack.pop());
-                continue;
-            }
-            if (tokens[i].equals("*")) {
-                stack.push(stack.pop() * stack.pop());
+                int num1 = stack.pop();
+                int num2 = stack.pop();
+                stack.push(num2 + num1);
                 continue;
             }
             if (tokens[i].equals("-")) {
                 int num1 = stack.pop();
-                stack.push(stack.pop() - num1);
+                int num2 = stack.pop();
+                stack.push(num2 - num1);
+                continue;
+            }
+            if (tokens[i].equals("*")) {
+                int num1 = stack.pop();
+                int num2 = stack.pop();
+                stack.push(num2 * num1);
                 continue;
             }
             if (tokens[i].equals("/")) {
                 int num1 = stack.pop();
-                stack.push(stack.pop() / num1);
+                int num2 = stack.pop();
+                stack.push(num2 / num1);
                 continue;
             }
             stack.push(Integer.parseInt(tokens[i]));
