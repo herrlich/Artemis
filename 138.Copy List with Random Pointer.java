@@ -6,35 +6,35 @@
  *     RandomListNode(int x) { this.label = x; }
  * };
  */
- //seems that the original array cannot be modified.
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
         if (head == null) return head;
-        RandomListNode tmp = head;
-        RandomListNode cur = null;
-        while (tmp != null) {
-            RandomListNode n = new RandomListNode(tmp.label);
-            cur = tmp.next;
-            tmp.next = n;
-            n.next = cur;
-            tmp = cur;
+        RandomListNode res = new RandomListNode(-1);
+        res.next = head;
+        RandomListNode tmp = null;
+        RandomListNode cur = head;
+        while (cur != null) {
+            tmp = cur.next;
+            RandomListNode newnode = new RandomListNode(cur.label);
+            cur.next = newnode;
+            newnode.next = tmp;
+            cur = tmp;
         }
-        tmp = head;
-        while (tmp != null) {
-            if (tmp.random == null) tmp.next.random = null;
-            else tmp.next.random = tmp.random.next;
-            tmp = tmp.next.next;
+        cur = head;
+        while (cur != null) {
+            if (cur.random == null) cur.next.random = null;
+            else cur.next.random = cur.random.next;
+            cur = cur.next.next;
         }
-        RandomListNode res = head.next;
-        tmp = head.next;
-        while (tmp.next != null) {
-            cur = tmp.next;
-            tmp.next = tmp.next.next;
+        
+        cur = head;
+        tmp = res;
+        while (cur != null) {
+            tmp.next = cur.next;
             tmp = tmp.next;
-            head.next = cur;
-            head = head.next;
+            cur.next = cur.next.next;
+            cur = cur.next;
         }
-        head.next = null;
-        return res;
+        return res.next;
     }
 }
