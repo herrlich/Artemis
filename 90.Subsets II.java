@@ -2,30 +2,31 @@ public class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         List<List<Integer>> list = new ArrayList<List<Integer>>();
         if (nums == null || nums.length == 0) return list;
-        Arrays.sort(nums);
         list.add(new ArrayList<Integer>());
-        List<List<Integer>> last = null;
+        Arrays.sort(nums);
+        List<List<Integer>> prev = null;
+        List<List<Integer>> pointer = null;
         for (int i = 0; i < nums.length; ++i) {
-            if (i > 0 && nums[i] == nums[i - 1]) {
-                List<List<Integer>> tmp = new ArrayList<List<Integer>>();
-                for (List<Integer> l : last) {
-                    List<Integer> cur = new ArrayList<Integer>(l);
-                    cur.add(nums[i]);
-                    tmp.add(cur);
-                }
-                list.addAll(tmp);
-                last = tmp;
+            if (prev == null || nums[i] != nums[i - 1]) {
+                pointer = list;
+                prev = new ArrayList<List<Integer>>();
+                getElements(pointer, prev, list, nums[i]);
             }
             else {
-                last = new ArrayList<List<Integer>>();
-                for (List<Integer> l : list) {
-                    List<Integer> cur = new ArrayList<Integer>(l);
-                    cur.add(nums[i]);
-                    last.add(cur);
-                }
-                list.addAll(last);
+                pointer = prev;
+                prev = new ArrayList<List<Integer>>();
+                getElements(pointer, prev, list, nums[i]);
             }
         }
         return list;
+    }
+    
+    public void getElements(List<List<Integer>> target, List<List<Integer>> prev, List<List<Integer>> list, int num) {
+        for (List<Integer> li : target) {
+            List<Integer> tmp = new ArrayList<Integer>(li); // this method is useful to copy
+            tmp.add(num);
+            prev.add(tmp);
+        }
+        list.addAll(prev); // addAll to avoid concurrent problems
     }
 }
