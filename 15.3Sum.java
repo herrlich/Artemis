@@ -1,33 +1,27 @@
 public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        if (nums.length <= 2) return res;
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        if (nums == null || nums.length < 3) return list;
         Arrays.sort(nums);
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] > 0) return res;
+        for (int i = 0; i < nums.length - 2; ++i) {
             if (i > 0 && nums[i] == nums[i - 1]) continue;
-            int left = i + 1, right = nums.length - 1;
-            while (left < right) {
-                if (nums[left] + nums[right] + nums[i] == 0) {
-                    if (left > i + 1 && nums[left] == nums[left -1]) {
-                        ++left;
-                        continue;
-                    }
-                    if (right < nums.length - 1 && nums[right] == nums[right + 1]) {
-                        --right;
-                        continue;
-                    }
+            if (nums[i] > 0) break;
+            int p1 = i + 1;
+            int p2 = nums.length - 1;
+            while (p1 < p2) {
+                if (nums[p1] + nums[i] > 0) break;
+                if (nums[i] + nums[p1] + nums[p2] == 0) {
                     List<Integer> tmp = new ArrayList<Integer>();
-                    tmp.add(nums[i]); tmp.add(nums[left]); tmp.add(nums[right]);
-                    res.add(tmp);
-                    ++left; --right;
+                    tmp.add(nums[i]); tmp.add(nums[p1]); tmp.add(nums[p2]);
+                    list.add(tmp);
+                    ++p1; --p2;
+                    while (p1 < p2 && nums[p1] == nums[p1 - 1]) ++p1;
+                    continue;
                 }
-                else {
-                    if (nums[left] + nums[right] + nums[i] < 0)  ++left;
-                    else --right;
-                }
+                if (nums[i] + nums[p1] + nums[p2] > 0) --p2;
+                else ++p1;
             }
         }
-        return res;
+        return list;
     }
 }

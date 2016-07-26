@@ -9,17 +9,10 @@
  */
 
 public class BSTIterator {
-    Stack<TreeNode> stack = new Stack<TreeNode>();
-    TreeNode cur = null;
-    
+    private Stack<TreeNode> stack = new Stack<TreeNode>();
+    private TreeNode cur = null;
     public BSTIterator(TreeNode root) {
-        //或者直接写cur = root,然后在next函数中进行压栈
-        TreeNode tmp = root;
-        while (tmp != null) {
-            stack.push(tmp);
-            tmp = tmp.left;
-        }
-        cur = null;
+        cur = root;
     }
 
     /** @return whether we have a next smallest number */
@@ -29,19 +22,12 @@ public class BSTIterator {
 
     /** @return the next smallest number */
     public int next() {
-        TreeNode tmp = null;
-        if (cur == null) {
-            tmp = stack.pop();
-            cur = tmp.right;
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.left;
         }
-        else {
-            while (cur.left != null) {
-                stack.push(cur);
-                cur = cur.left;
-            }
-            tmp = cur;
-            cur = cur.right;
-        }
+        TreeNode tmp = stack.pop();
+        cur = tmp.right;
         return tmp.val;
     }
 }
