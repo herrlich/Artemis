@@ -1,51 +1,26 @@
 public class Solution {
     public String countAndSay(int n) {
-        String s = "1";
-        return getCount(s, n);
-    }
-    
-    private String getCount(String s, int n) {
-        if (n == 1) return s;
-        StringBuilder sb = new StringBuilder();
-        int span = 1;
-        char cur = s.charAt(0);
-        for (int i = 1; i < s.length(); ++i) {
-            if (s.charAt(i) == s.charAt(i - 1)) ++span;
-            else {
-                sb.append(String.valueOf(span));
-                sb.append(String.valueOf(cur));
-                span = 1;
-                cur = s.charAt(i);
-            }
-        }
-        sb.append(String.valueOf(span));
-        sb.append(String.valueOf(cur));
-        return getCount(new String(sb), n - 1);
-    }
-}
-
-//Another iteration method
-public class Solution {
-    public String countAndSay(int n) {
         if (n < 1) return "";
-        String s = "1";
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(1);
         for (int i = 1; i < n; ++i) {
-            StringBuilder sb = new StringBuilder();
-            int span = 1;
-            char cur = s.charAt(0);
-            for (int j = 1; j < s.length(); ++j) {
-                if (s.charAt(j) == s.charAt(j - 1)) ++span;
+            int len = queue.size();
+            int count = 1, cur = queue.poll();
+            for (int j = 1; j < len; ++j) {
+                int tmp = queue.poll();
+                if (cur == tmp) ++count;
                 else {
-                    sb.append(String.valueOf(span));
-                    sb.append(String.valueOf(cur));
-                    span = 1;
-                    cur = s.charAt(j);
+                    queue.offer(count);
+                    queue.offer(cur);
+                    count = 1;
+                    cur = tmp;
                 }
             }
-            sb.append(String.valueOf(span));
-            sb.append(String.valueOf(cur));
-            s = new String(sb);
+            queue.offer(count);
+            queue.offer(cur);
         }
-        return s;
+        StringBuilder sb = new StringBuilder();
+        for (Integer i : queue) sb.append(i);
+        return new String(sb);
     }
 }
