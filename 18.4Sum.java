@@ -1,28 +1,29 @@
 public class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> list = new ArrayList<List<Integer>>();
-        if (nums == null || nums.length < 4) return list;
+        if (nums.length < 4) return list;
         Arrays.sort(nums);
-        for (int i = 0; i < nums.length; ++i) {
+        for (int i = 0; i < nums.length - 3; ++i) {
             if (i > 0 && nums[i] == nums[i - 1]) continue;
-            for (int j = i + 1; j < nums.length; ++j) {
+            for (int j = i + 1; j < nums.length - 2; ++j) {
                 if (j > i + 1 && nums[j] == nums[j - 1]) continue;
                 int left = j + 1, right = nums.length - 1;
                 while (left < right) {
-                    while (left > j + 1 && nums[left] == nums[left - 1] && left < right) ++left;
-                    if (left >= right) break;
-                    int sum = nums[i] + nums[j] + nums[left] + nums[right];
-                    if (sum == target) {
-                        List<Integer> tmp = new ArrayList<Integer>();
-                        tmp.add(nums[i]); tmp.add(nums[j]); tmp.add(nums[left]); tmp.add(nums[right]);
-                        list.add(tmp);
+                    if (left > j + 1 && nums[left - 1] == nums[left]) {
                         ++left;
-                        --right;
+                        continue;
                     }
-                    else {
-                        if (sum > target) --right;
-                        else ++left;
+                    int tmpsum = nums[i] + nums[j] + nums[left] + nums[right];
+                    if (tmpsum == target) {
+                        List<Integer> tmp = new ArrayList<Integer>();
+                        tmp.add(nums[i]); tmp.add(nums[j]);
+                        tmp.add(nums[left]); tmp.add(nums[right]);
+                        list.add(tmp);
+                        ++left; --right;
+                        continue;
                     }
+                    if (tmpsum > target) --right;
+                    else ++left;
                 }
             }
         }
