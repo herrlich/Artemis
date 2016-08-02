@@ -11,20 +11,12 @@ Hint:
 
 public class Solution {
     public boolean canPermutePalindrome(String s) {
-	if (s == null) return false;
-        int[] chararray = new int[256];
-        char tmp;
-        boolean flag = false;
-        for (int i = 0; i < s.length(); ++i) {
-            tmp = s.charAt(i);
-            chararray[(int)tmp] += 1;
-        }
-        for (int i = 0; i < 256; ++i) {
-            if (chararray[i] % 2 == 1) {
-                if (flag) return false;
-                else flag = true;
-            }
-        }
-        return true;
+        if (s == null) return false;
+        int[] arr = new int[256];
+        for (int i = 0; i < s.length(); ++i) arr[(int)s.charAt(i)] ^= 1;
+        int numOf1 = 0;
+        for (int i = 0; i < 256; ++i) if (arr[i] == 1) ++numOf1;
+        if (numOf1 == 0 || (numOf1 == 1 && s.length() % 2 == 1)) return true;
+        else return false;
     }
 }
