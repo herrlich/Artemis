@@ -13,68 +13,36 @@ Example 2:
 */
 
 /**
-
  * // This is the interface that allows for creating nested lists.
-
  * // You should not implement it, or speculate about its implementation
-
  * public interface NestedInteger {
-
  *
-
  *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
-
  *     public boolean isInteger();
-
  *
-
  *     // @return the single integer that this NestedInteger holds, if it holds a single integer
-
  *     // Return null if this NestedInteger holds a nested list
-
  *     public Integer getInteger();
-
  *
  *     // @return the nested list that this NestedInteger holds, if it holds a nested list
-
  *     // Return null if this NestedInteger holds a single integer
-
  *     public List<NestedInteger> getList();
  * }
-
  */
-
-
 public class Solution {
-
     public int depthSumInverse(List<NestedInteger> nestedList) {
-
         List<NestedInteger> cur = nestedList;
-
         List<NestedInteger> next = new ArrayList<NestedInteger>();
-
         int res = 0, prev = 0;
-
         while (!cur.isEmpty()) {
-
             for (NestedInteger n : cur) {
-
                 if (n.isInteger()) prev += n.getInteger();
-
                 else next.addAll(n.getList());
-
             }
-
             res += prev;
-
             cur = next;
-
             next = new ArrayList<NestedInteger>();
-
         }
-
         return res;
-
     }
-
 }
