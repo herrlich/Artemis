@@ -13,6 +13,27 @@ Note: There will be exactly one celebrity if he/she is in the party. Return the 
 
 public class Solution extends Relation {
     public int findCelebrity(int n) {
+        int[] array = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j) continue;
+                if (knows(i, j)) {
+                    array[i] = -1;
+                    ++array[j];
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (array[i] == n - 1) return i;
+        }
+        return -1;
+    }
+}
+
+
+// my previous method
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
         if (n <= 1) return n;
         int[] array = new int[n];
         for (int i = 0; i < n; ++i) {

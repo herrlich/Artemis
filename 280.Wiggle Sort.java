@@ -7,17 +7,17 @@ For example, given nums = [3, 5, 2, 1, 6, 4], one possible answer is [1, 6, 2, 5
 public class Solution {
     public void wiggleSort(int[] nums) {
         if (nums == null || nums.length < 2) return;
+        int tmp = 0;
         for (int i = 1; i < nums.length; ++i) {
+            tmp = nums[i];
             if (i % 2 == 1) {
-                if (nums[i] < nums[i - 1]) {
-                    int tmp = nums[i];
+                if (tmp < nums[i - 1]) {
                     nums[i] = nums[i - 1];
                     nums[i - 1] = tmp;
                 }
             }
             else {
-                if (nums[i] > nums[i - 1]) {
-                    int tmp = nums[i];
+                if (tmp > nums[i - 1]) {
                     nums[i] = nums[i - 1];
                     nums[i - 1] = tmp;
                 }
