@@ -12,24 +12,22 @@ find(7) -> false
 */
 
 public class TwoSum {
-    private HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+    private List<Integer> list = new ArrayList<Integer>();
     
     // Add the number to an internal data structure.
 	public void add(int number) {
-	    if (map.containsKey(number)) {
-	        int tmp = map.get(number);
-	        map.put(number, tmp + 1);
+	    if (map.containsKey(number)) map.put(number, map.get(number) + 1);
+	    else {
+	        list.add(number);
+	        map.put(number, 1);
 	    }
-	    else map.put(number, 1);
 	}
 
     // Find if there exists any pair of numbers which sum is equal to the value.
 	public boolean find(int value) {
-	    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-	        int k = entry.getKey();
-	        if (map.containsKey(value - k) && (value != 2 * k || (value == 2 * k && entry.getValue() > 1))) {
-	            return true;
-	        }
+	    for (int i : list) {
+	        if (map.containsKey(value - i) && (value != 2 * i || map.get(i) > 1)) return true;
 	    }
 	    return false;
 	}

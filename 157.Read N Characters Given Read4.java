@@ -18,15 +18,15 @@ public class Solution extends Reader4 {
      * @return    The number of characters read
      */
     public int read(char[] buf, int n) {
-        if (buf == null || n <= 0) return 0;
+        if (buf == null || n < 0) return 0;
+        int res = 0;
         char[] tmp = new char[4];
-        int pos = 0, len = 0;
-        while (n >= 0) {
-            len = read4(tmp);
-            for (int i = 0; i < Math.min(len, n); ++i) buf[pos++] = tmp[i];
-            if (len < 4) return pos;
+        while (n > 0) {
+            int num = read4(tmp);
+            for (int i = 0; i < Math.min(num, n); ++i) buf[res++] = tmp[i];
+            if (num < 4) break;
             n -= 4;
         }
-        return pos;
+        return res;
     }
 }

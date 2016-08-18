@@ -11,15 +11,19 @@ Output: index1=1, index2=2
 
 public class Solution {
     public int[] twoSum(int[] numbers, int target) {
-        if (numbers == null || numbers.length <= 1) return null;
-        int i = 0, j = numbers.length - 1;
-        
-        while(i < j) {
-            int x = numbers[i] + numbers[j];
-            if (x == target) return new int[]{i+1, j+1};
-            if(x < target) ++i;
-            else --j;
+        int[] res = new int[2];
+        if (numbers == null || numbers.length < 2) return res;
+        int left = 0, right = numbers.length - 1;
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+            if (sum == target) {
+                res[0] = left + 1;
+                res[1] = right + 1;
+                return res;
+            }
+            if (sum < target) ++left;
+            else --right;
         }
-        return null;
+        return res;
     }
 }
